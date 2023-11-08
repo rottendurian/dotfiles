@@ -1,0 +1,7 @@
+(undo-tree-save-format-version . 1)
+"6a3de0848445f51e970d92ba864d15a6f2198e4a"
+[nil nil nil nil (25882 46698 5393 507000) 0 nil]
+([nil nil ((200 . 202) (201 . 202) (199 . 201) (194 . 199) (185 . 189) (#(" " 0 1 (fontified nil)) . 185) (190 . 191) (185 . 186) (#("    " 0 4 (fontified nil)) . 185) (192 . 193) (189 . 192) (184 . 189) (t 25882 46470 100638 15000) 182) nil (25882 46698 5390 902000) 0 nil])
+([nil current ((#("    fmt::print(\"\");
+" 0 4 (fontified t) 4 5 (face font-lock-constant-face fontified t) 5 6 (face font-lock-constant-face fontified t) 6 7 (face font-lock-constant-face fontified t) 7 8 (fontified t) 8 9 (fontified t) 9 10 (fontified t) 10 11 (fontified t) 11 12 (fontified t) 12 13 (fontified t) 13 14 (fontified t) 14 15 (fontified t) 15 16 (face font-lock-string-face fontified t) 16 17 (face font-lock-string-face fontified t) 17 18 (fontified t) 18 19 (fontified t) 19 20 (fontified t)) . 185) (undo-tree-id0 . -16) (undo-tree-id1 . -16) (undo-tree-id2 . -16) (undo-tree-id3 . -16) (undo-tree-id4 . -16) (undo-tree-id5 . -16) (undo-tree-id6 . -17) (undo-tree-id7 . -17) (undo-tree-id8 . 3) (undo-tree-id9 . -16) (undo-tree-id10 . -16) (undo-tree-id11 . -16) (undo-tree-id12 . -16) (undo-tree-id13 . -16) (undo-tree-id14 . -16) (undo-tree-id15 . -16) (undo-tree-id16 . -16) (undo-tree-id17 . -20) (undo-tree-id18 . -19) 201) nil (25882 46698 5380 243000) 0 nil])
+nil
