@@ -11,7 +11,6 @@ directories = [
     "rofi",
     "wofi",
     "tmux",
-    "nvim",
 ]
 
 
