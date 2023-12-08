@@ -28,12 +28,15 @@ def main():
         except FileNotFoundError as err:
             print("could not copy directory", err)
 
-        try:
-            shutil.rmtree("fonts")
-            directory = os.path.expanduser("~/.local/share/fonts")
-            shutil.copytree(directory, "fonts")
-        except FileNotFoundError as err:
-            print("could not copy directory", err)
+    try:
+        shutil.rmtree("fonts")
+    except:
+        pass
+    try:
+        directory = os.path.expanduser("~/.local/share/fonts")
+        shutil.copytree(directory, "fonts")
+    except FileNotFoundError as err:
+        print("could not copy directory", err)
 
 
 if __name__ == "__main__":

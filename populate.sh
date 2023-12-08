@@ -1,7 +1,6 @@
-mv fonts ~/.config
-mv gammastep ~/.config
-mv i3 ~/.config
-mv kitty ~/.config
-mv rofi ~/.config
-mv wofi ~/.config
-mv sway ~/.config
+cp gammastep/ ~/.config/gammastep -rf
+cp i3/ ~/.config/i3 -rf
+cp kitty/ ~/.config/kitty -rf
+cp rofi/ ~/.config/rofi -rf
+cp wofi/ ~/.config/wofi -rf
+cp sway/ ~/.config/sway -rf
