@@ -9,7 +9,6 @@ directories = [
     "gammastep",
     "kitty",
     "rofi",
-    "wofi",
     "tmux",
 ]
 
