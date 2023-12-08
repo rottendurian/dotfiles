@@ -10,7 +10,6 @@ directories = [
     "kitty",
     "rofi",
     "wofi",
-    "tmux",
 ]
 
 
