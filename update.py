@@ -5,7 +5,6 @@ prefix = os.path.expanduser("~/.config")
 directories = [
     "sway",
     "i3",
-    "emacs",
     "gammastep",
     "kitty",
     "rofi",
