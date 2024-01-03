@@ -4,3 +4,4 @@ cp kitty ~/.config/ -rf
 cp rofi ~/.config/ -rf
 cp wofi ~/.config/ -rf
 cp sway ~/.config/ -rf
+cp neofetch ~/.config/ -rf

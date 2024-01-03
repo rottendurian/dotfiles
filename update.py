@@ -9,6 +9,7 @@ directories = [
     "kitty",
     "rofi",
     "wofi",
+    "neofetch",
 ]
 
 
