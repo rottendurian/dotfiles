@@ -1,0 +1,77 @@
+/* blue/green colors */
+/* @define-color background #1E1E2E; */
+/* @define-color generic #33CCAA; */
+/* @define-color generic_text #33CCAA; */
+/* @define-color selected #1EBA25; */
+/* @define-color urgent #21A4DF; */
+/* @define-color inactive #808080; */
+
+/* black/white colors */
+@define-color background #000000;
+@define-color generic #BBBBBB;
+@define-color generic_text #FFFFFF;
+@define-color selected #FFFFFF;
+@define-color urgent #e5de00;
+@define-color inactive #808080;
+
+
+* {
+    border:        none;
+    border-radius: 0;
+    font-family:   "Source Sans Pro", "FontAwesome 6 Free";
+    font-size:     15px;
+    box-shadow:    none;
+    text-shadow:   none;
+    transition-duration: 0s;
+    margin: 0px 2px 0px 2px;
+    padding: 0px;
+}
+
+window#waybar {
+    color: @generic_text;
+    background-color: @background;
+    /* border-bottom: 1px solid @generic; */
+}
+
+#workspaces {
+    margin: 0 2px 0 2px;
+}
+
+#workspaces active {
+    color: @generic;
+}
+
+#workspaces button {
+    color: @generic;
+}
+
+#workspaces button:hover {
+    box-shadow: inherit;
+    text-shadow: inherit;
+    background: inherit;
+    transition: inherit;
+}
+
+#workspaces button.focused {
+    color: @generic;
+}
+
+#workspaces button.visible {
+    color: @selected;
+}
+
+#workspaces button.urgent {
+    color: @urgent;
+}
+
+#bluetooth.disabled {
+    color: @inactive;
+}
+
+#bluetooth.off {
+    color: @inactive;
+}
+
+#bluetooth.connected {
+    color: @generic;
+}

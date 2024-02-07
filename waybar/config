@@ -1,0 +1,111 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "spacing": 0,
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": [],
+    "modules-right": ["network", "bluetooth", "custom/audio", "custom/microphone", "backlight", "battery", "clock", "tray"],
+
+    "sway/mode": {
+        "format": " {}"
+    },
+
+    "sway/workspaces": {
+
+    },
+
+    "tray": {
+        "icon-size": 21,
+        "spacing": 10
+    },
+
+    "clock": {
+        // "timezone": "America/New_York",
+        // "format": " {:%b %d %Y %R}",
+        //"format-alt": "{:%a %d %b w:%V %H:%M}",
+        "format": "{:%a %D %I:%M %p}",
+        "format-alt": "{:%a %D %I:%M %p}",
+        "interval": 10
+    },
+
+    "backlight": {
+        // "format": "{percent}% {icon}",
+        // "format-icons": ["", ""],
+        "format": "bright-{percent}%",
+    },
+
+    "battery": {
+        "format": "bat-{capacity}%",
+        "format-alt": "{capacity}% {time}",
+    },
+
+    "network": {
+        //"format-wifi": "",
+        //"format-ethernet": "",
+        //"format-linked": "",
+        //"format-disconnected": "⚠",
+        "format": "wifi-[{essid}]",
+        "format-alt": "{essid} ({signalStrength}%)",
+    },
+
+    "bluetooth": {
+	    "format": "",
+	    "format-disabled": "",
+	    "format-off": "",
+	    "format-connected": " {num_connections}",
+	    "tooltip-format": "{controller_address} {status}\n\n{num_connections} connected",
+	    "tooltip-format-disabled": "{status}",
+	    "tooltip-format-connected": "{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+	    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+	    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+	    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+    },
+
+    //"pulseaudio": {
+    //    "format": "{volume}% {icon}",
+    //    "format-muted": "",
+    //    "format-icons": {
+    //        "headphones": "",
+    //        "handsfree": "",
+    //        "headset": "",
+    //        "phone": "",
+    //        "portable": "",
+    //        "car": "",
+    //        "default": ["", "", ""]
+    //    },
+    //    "scroll-step": 10,
+    //    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    //    "on-click": "pavucontrol",
+    //    "tooltip": false
+    //},
+
+    "custom/audio": {
+        "format": "vol-{}",
+        "interval": 1,
+        "exec": "amixer -M get Master | ~/.config/sway/find_percent",
+    },
+
+    "custom/microphone": {
+        "format": "mic-{}",
+        "interval": 1,
+        "exec": "amixer -M get Capture | $HOME/.config/sway/find_percent",
+    },
+
+    //"custom/notification": {
+	//    "tooltip": true,
+	//    "format": "{icon}",
+	//    "format-icons": {
+	//         "notification": "<span foreground='red'><small><sup>⬤</sup></small></span>",
+	//         "none": " ",
+	//         "dnd-notification": "<span foreground='red'><small><sup>⬤</sup></small></span>",
+	//         "dnd-none": " "
+	//    },
+	//    "return-type": "json",
+	//    "exec-if": "which swaync-client",
+	//    "exec": "swaync-client -swb",
+	//    "on-click": "swaync-client -t -sw",
+	//    "on-click-right": "swaync-client -d -sw",
+	//    "escape": true
+    //}
+}

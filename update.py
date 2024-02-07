@@ -10,6 +10,7 @@ directories = [
     "rofi",
     "wofi",
     "neofetch",
+    "waybar",
 ]
 
 

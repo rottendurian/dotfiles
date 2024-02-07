@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#define BUFFER_LEN 200
+#define BUFFER_LEN 500
 #define RESULT_LEN 50
 
 int main(int argc, char **argv) {
@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
 	memset(result, 0, RESULT_LEN*sizeof(char));
 	int max_range = fread(buffer, sizeof(char), BUFFER_LEN, stdin);
 
-	char* expected = "wlo1: connected to ";
+	char* expected = "Name: ";
 	int expected_len = strlen(expected);
 	
 	for (int i = 0; i < max_range; i++) {
@@ -35,10 +35,13 @@ int main(int argc, char **argv) {
 				i++;
 			}
 			memcpy(result, &buffer[start_index], i-start_index);
-			printf("%s", result);
+            printf("[%s]", result);
+
 			return 0;
 		}
 	}
+    printf("none");
 	return -1;
 }
+
 

@@ -20,7 +20,7 @@ date_formatted=$(date "+%a %D %I:%M %p")
 # egrep "state|percentage" |\
 # awk '{print $2}')
 
-# battery_info=$(upower --show-info $(upower --enumerate | grep 'BAT') | egrep "percentage" | awk '{print $2}')
+battery_info=$(upower --show-info $(upower --enumerate | grep 'BAT') | egrep "percentage" | awk '{print $2}')
 
 # "amixer -M" gets the mapped volume for evaluating the percentage which
 # is more natural to the human ear according to "man amixer".
@@ -37,14 +37,13 @@ date_formatted=$(date "+%a %D %I:%M %p")
 
 audio_volume=$(amixer -M get Master | ~/.config/sway/find_percent)
 mic_volume=$(amixer -M get Capture | ~/.config/sway/find_percent)
-
-# brightness=$(brightnessctl | ~/.config/sway/find_percent)
-
-# wifi_name=$(nmcli | ~/.config/sway/find_wifi)
+bluetooth=$(bluetoothctl info | ~/.config/sway/find_bluetooth)
+brightness=$(brightnessctl | ~/.config/sway/find_percent)
+wifi_name=$(nmcli | ~/.config/sway/find_wifi)
 
 # Additional emojis and characters for the status bar:
 # Electricity: ⚡ ↯ ⭍ 🔌
 # Audio: 🔈 🔊 🎧 🎶 🎵 🎤
 # Separators: \| ❘ ❙ ❚
 # Misc: 🐧 💎 💻 💡 ⭐ 📁 ↑ ↓ ✉ ✅ ❎ 🔋
-echo mic-$mic_volume vol-$audio_volume $date_formatted
+echo wifi-[$wifi_name] bluetooth-$bluetooth vol-$audio_volume mic-$mic_volume bright-$brightness bat-$battery_info $date_formatted

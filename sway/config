@@ -8,18 +8,21 @@ set $down j
 set $up k
 set $right l
 set $term kitty 
+set $discord flatpak run com.discordapp.Discord
 set $browser flatpak run org.mozilla.firefox
-set $menu exec wofi --show drun -G -M fuzzy
+set $menu exec wofi -i --show drun -G -M i fuzzy
 
 include /etc/sway/config-vars.d/*
 
 ### Idle configuration
 
 set $screenlock 'swaylock -f -c 000000'
-set $suspend swaylock -f -c 000000 && systemctl suspend
+set $suspend 'swaylock -f -c 000000 && systemctl suspend'
 exec swayidle -w \
-         timeout 100 $screenlock \
-         timeout 120 $suspend \
+    timeout 100 'swaymsg "output * dpms off"' \
+       resume 'swaymsg "output * dpms on"' \
+    timeout 120 $suspend \
+    before-sleep $screenlock \
 
 ### Input configuration
 # names of inputs: swaymsg -t get_inputs
@@ -41,21 +44,20 @@ input "type:touchpad" {
 # man sway-output
 # swaymsg -t get-outputs
 
-output DP-2 mode 1920x1080@144Hz
+output 'Ancor Communications Inc VG248 F5LMQS027879' mode 1920x1080@144Hz
 
 # background
-output * bg ~/Pictures/96689.jpg fill
-
+output * bg ~/Pictures/windows/96689.jpg fill
 
 ### Key bindings
 
 bindsym $mod+Return exec $term
 bindsym $mod+z exec $browser
+bindsym $mod+x exec $discord
 bindsym $mod+d exec $menu
 
 # Kill focused window
 bindsym $mod+q kill
-
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
@@ -90,15 +92,61 @@ bindsym XF86AudioMute exec amixer set Master toggle
 bindsym XF86MonBrightnessUp exec brightnessctl s 5+
 bindsym XF86MonBrightnessDown exec brightnessctl s 5-
 
-bindsym $mod+Ctrl+s exec grim
-bindsym $mod+Shift+s exec grim -g "$(slurp)"
+# Screenshots
+set $screenshot_output_file "$HOME/Pictures/Screenshots/grim_$(date '+%y%m%d%H-%M-%S').png"
+## Area selection shortcuts
+set $selected_window swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp
+set $focused_window swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"'
+set $focused_output swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name'
+## Screenshot commands
+### Full
+set $screenshot_full grim $screenshot_output_file
+set $screenshot_full_clipboard grim - | wl-copy
+### Selected window
+set $screenshot_selected_window $selected_window | grim -g- $screenshot_output_file
+set $screenshot_selected_window_clipboard $selected_window | grim -g- - | wl-copy
+### Selected area
+set $screenshot_selected_area slurp | grim -g- $screenshot_output_file
+set $screenshot_selected_area_clipboard slurp | grim -g- - | wl-copy
+### Focused window
+set $screenshot_focused_window $focused_window | grim -g- $screenshot_output_file
+set $screenshot_focused_window_clipboard $focused_window | grim -g- - | wl-copy
+### Focused output
+set $screenshot_focused_output grim -o $($focused_output) $screenshot_output_file
+set $screenshot_focused_output grim -o $($focused_output) - | wl-copy
+
+## Screenshot mode menu
+set $screenshot "Screenshot: (f) full, (s) select window, (a) select area, (w) focused window, (o) focused output [Ctrl+ saves to clipboard]"
+mode $screenshot {
+    # Full
+    bindsym f exec $screenshot_full; mode "default"
+    bindsym Ctrl+f exec $screenshot_full_clipboard; mode "default"
+    # Selected window
+    bindsym s exec $screenshot_selected_window; mode "default"
+    bindsym Ctrl+s exec $screenshot_selected_window_clipboard; mode "default"
+    # Selected area
+    bindsym a exec $screenshot_selected_area; mode "default"
+    bindsym Ctrl+a exec $screenshot_selected_area_clipboard; mode "default"
+    # Focused window
+    bindsym w exec $screenshot_focused_window; mode "default"
+    bindsym Ctrl+w exec $screenshot_focused_window_clipboard; mode "default"
+    # Focused output
+    bindsym o exec $screenshot_focused_output; mode "default"
+    bindsym Ctrl+o exec $screenshot_focused_output_clipboard; mode "default"
+
+    # Exit screenshot mode menu
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+Print mode "default"
+}
+bindsym $mod+Shift+s mode $screenshot
 
 # Suspend
 bindsym $mod+Shift+period exec $suspend
 # Lock 
 bindsym $mod+Shift+comma exec $screenlock
 
-### Moving around:
+## Moving around:
 
 # Move your focus around
 bindsym $mod+$left focus left
@@ -186,16 +234,16 @@ bindsym $mod+minus scratchpad show
 ### Resizing containers:
 
 mode "resize" {
-    bindsym $left resize shrink width 20px
-    bindsym $down resize grow height 20px
-    bindsym $up resize shrink height 20px
-    bindsym $right resize grow width 20px
+    bindsym $left resize grow width 20px
+    bindsym $down resize shrink height 20px
+    bindsym $up resize grow height 20px
+    bindsym $right resize shrink width 20px
 
     # Ditto, with arrow keys
-    bindsym Left resize shrink width 40px
-    bindsym Down resize grow height 40px
-    bindsym Up resize shrink height 40px
-    bindsym Right resize grow width 40px
+    bindsym Left resize grow width 40px
+    bindsym Down resize shrink height 40px
+    bindsym Up resize grow height 40px
+    bindsym Right resize shrink width 40px
 
     # Return to default mode
     bindsym Return mode "default"
@@ -204,36 +252,76 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 ### Status Bar:
-
 # Read `man 5 sway-bar` for more information about this section.
+# bar {
+#     position bottom
+#
+#     # When the status_command prints a new line to stdout, swaybar updates.
+#     # status_command while date +'%m-%d-%Y %I:%M %p'; do sleep 1; done
+# 	status_command while ~/.config/sway/statusbar.sh; do sleep 1; done
+#
+#     colors {
+#         statusline #ffffff
+#         background #000000
+# 		focused_workspace #000000 #000000 #ffffff
+#         inactive_workspace #000000 #000000 #5c5c5c
+#     }
+# }
+
 bar {
-    position bottom
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # status_command while date +'%m-%d-%Y %I:%M %p'; do sleep 1; done
-	status_command while ~/.config/sway/statusbar.sh; do sleep 1; done
-
-    colors {
-        statusline #ffffff
-        background #000000
-		focused_workspace #000000 #000000 #ffffff
-        inactive_workspace #000000 #000000 #5c5c5c
-    }
+    swaybar_command waybar
 }
 
 default_border pixel 0
 default_floating_border pixel 0
+titlebar_border_thickness 0
+
+set $opacity FF
+
+# blue/green theme
+# set $border_focused 33CCAA
+# set $border_unfocused 338866
+# set $background 1d1d2d
+# set $text_focused 1EBA25
+# set $text_unfocused 33CCAA
+
+# black/white theme
+set $border_focused FFFFFF
+set $border_unfocused AAAAAA
+set $background 000000
+set $text_focused FFFFFF
+set $text_unfocused AAAAAA
 
 title_align center
-client.focused #000000 #0a0a0a #ffffff
-client.focused_inactive #000000 #0a0a0a #ffffff
-client.unfocused #000000 #000000 #6c6c6c
+# colors                #Border                     #Background             #Text               #indicator  
+client.focused          #$border_focused$opacity    #$background$opacity    #$text_focused      #$text_focused
+client.focused_inactive #$border_focused$opacity    #$background$opacity    #$text_focused      #$text_focused
+client.unfocused        #$border_unfocused$opacity  #$background$opacity    #$text_unfocused    #$text_unfocused
 
 exec amixer set Master 50%
 
-# nightlight
 exec gammastep
 
 for_window [class="zoom"] floating enable
+for_window [class="polkit"] floating enable
 
-include /etc/sway/config.d/*
+# Toggle notification bar
+set $toggle_notification "swaync-client -t -sw"
+bindsym $mod+Shift+n exec $toggle_notification
+
+# Power button suspends
+exec systemd-inhibit --what=handle-power-key sleep infinity
+bindsym XF86PowerOff exec $suspend
+
+exec_always {
+    systemctl --user import-environment
+    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
+    gsettings set org.gnome.desktop.interface icon-theme 'Adwaita'
+    gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita'
+    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+    swaync --style /etc/sway/swaync/style.css --config /etc/sway/swaync/config.json
+}
+
+exec /usr/libexec/polkit-gnome-authentication-agent-1
+
+# include /etc/sway/config.d/*
